@@ -19,9 +19,7 @@ hero2 = hero_class.Player(
     wight, height, 2, pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT, size_image=0.09
 )
 all_enemy = pygame.sprite.Group()
-for i in range(6): # создать 10 врагов
-    mob = enemy_class.Enemy(wight, height)
-    all_enemy.add(mob)
+
 
 
 running = True  # игровой цикл
@@ -37,6 +35,11 @@ while running:  # запуск игрового цикла
         if event.type == pygame.QUIT:  # если нажали на крестик
             running = False
 
+    if len(all_enemy) <= 9:  # создать 10 врагов
+        mob = enemy_class.Enemy(wight, height)
+        all_enemy.add(mob)
+
+
     hero1.update() # обновление расположения коробля
     hero2.update()
     # отрисовка врагов
@@ -48,10 +51,12 @@ while running:  # запуск игрового цикла
     hero1.all_bullet.draw(screen)
     hero2.all_bullet.draw(screen)
 
-    if pygame.sprite.spritecollide(hero1, all_enemy, False): #остоновка програмы если спрайты столкнулись
-        running = False
-    # if pygame.sprite.spritecollide(hero2, all_enemy, False):
+    # if pygame.sprite.spritecollide(hero1, all_enemy, False): #остоновка програмы если спрайты столкнулись
     #     running = False
+    if pygame.sprite.groupcollide(hero1.all_bullet, all_enemy, True , True):
+        pass
+    if pygame.sprite.groupcollide(hero2.all_bullet, all_enemy, True , True):
+        pass
 
     screen.blit(hero1.image, hero1.rect) # отрисовка кораблика
     screen.blit(hero2.image, hero2.rect)  # отрисовка кораблика
